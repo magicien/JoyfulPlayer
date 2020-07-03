@@ -1,0 +1,496 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD3F136A249F1C5B001C26BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1369249F1C5B001C26BA /* AppDelegate.swift */; };
+		DD3F136C249F1C5B001C26BA /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F136B249F1C5B001C26BA /* PlayerView.swift */; };
+		DD3F136E249F1C5D001C26BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3F136D249F1C5D001C26BA /* Assets.xcassets */; };
+		DD3F1371249F1C5D001C26BA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3F1370249F1C5D001C26BA /* Preview Assets.xcassets */; };
+		DD3F1374249F1C5D001C26BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3F1372249F1C5D001C26BA /* Main.storyboard */; };
+		DD3F137D249F1E97001C26BA /* MidiParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3F137C249F1E97001C26BA /* MidiParser.framework */; };
+		DD3F137E249F1E97001C26BA /* MidiParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD3F137C249F1E97001C26BA /* MidiParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD3F1387249F34C5001C26BA /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1386249F34C5001C26BA /* Player.swift */; };
+		DD3F1389249F3A65001C26BA /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1388249F3A65001C26BA /* Controller.swift */; };
+		DD3F138B249F3F9C001C26BA /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F138A249F3F9C001C26BA /* Note.swift */; };
+		DD3F139824A0A3D0001C26BA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F139724A0A3D0001C26BA /* Notifications.swift */; };
+		DDEADDA024A8A5BF00A61D12 /* AppEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEADD9F24A8A5BF00A61D12 /* AppEnv.swift */; };
+		DDEADDBD24AC7FC400A61D12 /* TrackCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEADDBC24AC7FC400A61D12 /* TrackCellView.swift */; };
+		EBBD4CA51675705BE046265F /* Pods_JoyfulPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0D44A0F6B0D5887926E4BD /* Pods_JoyfulPlayer.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DD3F137F249F1E97001C26BA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DD3F137E249F1E97001C26BA /* MidiParser.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0A7BFACA04A75E674F342D21 /* Pods-JoyfulPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JoyfulPlayer.release.xcconfig"; path = "Target Support Files/Pods-JoyfulPlayer/Pods-JoyfulPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		CA0D44A0F6B0D5887926E4BD /* Pods_JoyfulPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JoyfulPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3F1366249F1C5B001C26BA /* JoyfulPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JoyfulPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3F1369249F1C5B001C26BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DD3F136B249F1C5B001C26BA /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		DD3F136D249F1C5D001C26BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD3F1370249F1C5D001C26BA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DD3F1373249F1C5D001C26BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DD3F1375249F1C5D001C26BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD3F1376249F1C5D001C26BA /* JoyfulPlayer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JoyfulPlayer.entitlements; sourceTree = "<group>"; };
+		DD3F137C249F1E97001C26BA /* MidiParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MidiParser.framework; path = Carthage/Build/Mac/MidiParser.framework; sourceTree = "<group>"; };
+		DD3F1386249F34C5001C26BA /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		DD3F1388249F3A65001C26BA /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
+		DD3F138A249F3F9C001C26BA /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		DD3F139724A0A3D0001C26BA /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		DDEADD9F24A8A5BF00A61D12 /* AppEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnv.swift; sourceTree = "<group>"; };
+		DDEADDBC24AC7FC400A61D12 /* TrackCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCellView.swift; sourceTree = "<group>"; };
+		E5160DC2B8271989BB889377 /* Pods-JoyfulPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JoyfulPlayer.debug.xcconfig"; path = "Target Support Files/Pods-JoyfulPlayer/Pods-JoyfulPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD3F1363249F1C5B001C26BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3F137D249F1E97001C26BA /* MidiParser.framework in Frameworks */,
+				EBBD4CA51675705BE046265F /* Pods_JoyfulPlayer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		797C1A914D5E1278B9BF00AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD3F137C249F1E97001C26BA /* MidiParser.framework */,
+				CA0D44A0F6B0D5887926E4BD /* Pods_JoyfulPlayer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA950F72B7D3E98717B7373D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E5160DC2B8271989BB889377 /* Pods-JoyfulPlayer.debug.xcconfig */,
+				0A7BFACA04A75E674F342D21 /* Pods-JoyfulPlayer.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DD3F135D249F1C5B001C26BA = {
+			isa = PBXGroup;
+			children = (
+				DD3F1368249F1C5B001C26BA /* JoyfulPlayer */,
+				DD3F1367249F1C5B001C26BA /* Products */,
+				BA950F72B7D3E98717B7373D /* Pods */,
+				797C1A914D5E1278B9BF00AF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DD3F1367249F1C5B001C26BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD3F1366249F1C5B001C26BA /* JoyfulPlayer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD3F1368249F1C5B001C26BA /* JoyfulPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				DD3F1369249F1C5B001C26BA /* AppDelegate.swift */,
+				DDEADD9F24A8A5BF00A61D12 /* AppEnv.swift */,
+				DD3F1388249F3A65001C26BA /* Controller.swift */,
+				DD3F136B249F1C5B001C26BA /* PlayerView.swift */,
+				DDEADDBC24AC7FC400A61D12 /* TrackCellView.swift */,
+				DD3F1386249F34C5001C26BA /* Player.swift */,
+				DD3F139724A0A3D0001C26BA /* Notifications.swift */,
+				DD3F138A249F3F9C001C26BA /* Note.swift */,
+				DD3F136D249F1C5D001C26BA /* Assets.xcassets */,
+				DD3F1372249F1C5D001C26BA /* Main.storyboard */,
+				DD3F1375249F1C5D001C26BA /* Info.plist */,
+				DD3F1376249F1C5D001C26BA /* JoyfulPlayer.entitlements */,
+				DD3F136F249F1C5D001C26BA /* Preview Content */,
+			);
+			path = JoyfulPlayer;
+			sourceTree = "<group>";
+		};
+		DD3F136F249F1C5D001C26BA /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				DD3F1370249F1C5D001C26BA /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD3F1365249F1C5B001C26BA /* JoyfulPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD3F1379249F1C5D001C26BA /* Build configuration list for PBXNativeTarget "JoyfulPlayer" */;
+			buildPhases = (
+				5788B0444B0B67CBCBF10C91 /* [CP] Check Pods Manifest.lock */,
+				DD3F1362249F1C5B001C26BA /* Sources */,
+				DD3F1363249F1C5B001C26BA /* Frameworks */,
+				DD3F1364249F1C5B001C26BA /* Resources */,
+				40AE346B22F82D91D4795AE1 /* [CP] Embed Pods Frameworks */,
+				DD3F137F249F1E97001C26BA /* Embed Frameworks */,
+				DD3F1381249F1EAF001C26BA /* Copy Carthage Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JoyfulPlayer;
+			productName = JoyfulPlayer;
+			productReference = DD3F1366249F1C5B001C26BA /* JoyfulPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD3F135E249F1C5B001C26BA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = DarkHorse;
+				TargetAttributes = {
+					DD3F1365249F1C5B001C26BA = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = DD3F1361249F1C5B001C26BA /* Build configuration list for PBXProject "JoyfulPlayer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD3F135D249F1C5B001C26BA;
+			productRefGroup = DD3F1367249F1C5B001C26BA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD3F1365249F1C5B001C26BA /* JoyfulPlayer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD3F1364249F1C5B001C26BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3F1374249F1C5D001C26BA /* Main.storyboard in Resources */,
+				DD3F1371249F1C5D001C26BA /* Preview Assets.xcassets in Resources */,
+				DD3F136E249F1C5D001C26BA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		40AE346B22F82D91D4795AE1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JoyfulPlayer/Pods-JoyfulPlayer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JoyfulPlayer/Pods-JoyfulPlayer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JoyfulPlayer/Pods-JoyfulPlayer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5788B0444B0B67CBCBF10C91 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JoyfulPlayer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD3F1381249F1EAF001C26BA /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/MidiParser.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD3F1362249F1C5B001C26BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3F139824A0A3D0001C26BA /* Notifications.swift in Sources */,
+				DD3F138B249F3F9C001C26BA /* Note.swift in Sources */,
+				DD3F1387249F34C5001C26BA /* Player.swift in Sources */,
+				DD3F136C249F1C5B001C26BA /* PlayerView.swift in Sources */,
+				DDEADDA024A8A5BF00A61D12 /* AppEnv.swift in Sources */,
+				DD3F136A249F1C5B001C26BA /* AppDelegate.swift in Sources */,
+				DD3F1389249F3A65001C26BA /* Controller.swift in Sources */,
+				DDEADDBD24AC7FC400A61D12 /* TrackCellView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DD3F1372249F1C5D001C26BA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD3F1373249F1C5D001C26BA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD3F1377249F1C5D001C26BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DD3F1378249F1C5D001C26BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		DD3F137A249F1C5D001C26BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5160DC2B8271989BB889377 /* Pods-JoyfulPlayer.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = JoyfulPlayer/JoyfulPlayer.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"JoyfulPlayer/Preview Content\"";
+				DEVELOPMENT_TEAM = EF37D6UQZ9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = JoyfulPlayer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.0spec.JoyfulPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DD3F137B249F1C5D001C26BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A7BFACA04A75E674F342D21 /* Pods-JoyfulPlayer.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = JoyfulPlayer/JoyfulPlayer.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"JoyfulPlayer/Preview Content\"";
+				DEVELOPMENT_TEAM = EF37D6UQZ9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = JoyfulPlayer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.0spec.JoyfulPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD3F1361249F1C5B001C26BA /* Build configuration list for PBXProject "JoyfulPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD3F1377249F1C5D001C26BA /* Debug */,
+				DD3F1378249F1C5D001C26BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD3F1379249F1C5D001C26BA /* Build configuration list for PBXNativeTarget "JoyfulPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD3F137A249F1C5D001C26BA /* Debug */,
+				DD3F137B249F1C5D001C26BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD3F135E249F1C5B001C26BA /* Project object */;
+}
