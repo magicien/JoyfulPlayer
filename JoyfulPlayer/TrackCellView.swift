@@ -9,6 +9,8 @@
 import SwiftUI
 import JoyConSwift
 
+let emptySubtrack: Subtrack? = nil
+
 struct TrackCellView: View, Identifiable {
     @EnvironmentObject var env: AppEnv
     
@@ -29,41 +31,20 @@ struct TrackCellView: View, Identifiable {
         return "Unknown"
     }
     
-    var track: Subtrack? {
-        get {
-            if self.left {
-                if self.high {
-                    return self.controller.leftHighTrack
-                } else {
-                    return self.controller.leftLowTrack
-                }
+    var boundTrack: Binding<Subtrack?> {
+        if self.left {
+            if self.high {
+                return self.$controller.leftHighTrack
             } else {
-                if self.high {
-                    return self.controller.rightHighTrack
-                } else {
-                    return self.controller.rightLowTrack
-                }
+                return self.$controller.leftLowTrack
+            }
+        } else {
+            if self.high {
+                return self.$controller.rightHighTrack
+            } else {
+                return self.$controller.rightLowTrack
             }
         }
-        set {
-            if self.left {
-                if self.high {
-                    self.controller.leftHighTrack = newValue
-                } else {
-                    self.controller.leftLowTrack = newValue
-                }
-            } else {
-                if self.high {
-                    self.controller.rightHighTrack = newValue
-                } else {
-                    self.controller.rightLowTrack = newValue
-                }
-            }
-        }
-    }
-    
-    var trackName: String? {
-        return self.track?.name
     }
     
     var body: some View {
@@ -71,7 +52,17 @@ struct TrackCellView: View, Identifiable {
             Text("\(self.controllerName) \(self.left ? "L" : "R") \(self.high ? "high" : "low")")
                 .frame(width: 100, alignment: .leading)
 
-            Text(self.track?.name ?? "Not assigned")
+            self.trackSelect
+        }
+    }
+    
+    var trackSelect: some View {
+        let flatTracks: [Subtrack?] = self.env.player.tracks.reduce([emptySubtrack], +)
+        
+        return Picker("", selection: self.boundTrack) {
+            ForEach(flatTracks, id: \.self) { track in
+                Text(track?.name ?? "Not assigned").tag(track)
+            }
         }
     }
 }

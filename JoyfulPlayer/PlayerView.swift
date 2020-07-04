@@ -133,7 +133,7 @@ struct PlayerView: View {
     
     var pauseButton: some View {
         Button(action: {
-            self.env.player.pause()
+            self.env.player.pause(controllers: self.env.controllers)
         }) {
             Text("4. Stop")
         }

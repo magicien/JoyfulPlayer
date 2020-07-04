@@ -17,13 +17,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
     
     let appEnv = AppEnv()
-
-    var manager: JoyConManager {
-        return self.appEnv.manager
-    }
-    var player: Player {
-        return self.appEnv.player
-    }
     
     // MARK: - App event handlers
 
@@ -46,19 +39,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.addObserver(forName: .didStopPlaying, object: nil, queue: nil, using: self.didStopPlaying)
 
         // Set controller handlers
-        self.manager.connectHandler = { [weak self] controller in
+        self.appEnv.manager.connectHandler = { [weak self] controller in
             self?.connectController(controller)
         }
-        self.manager.disconnectHandler = { [weak self] controller in
+        self.appEnv.manager.disconnectHandler = { [weak self] controller in
             self?.disconnectController(controller)
         }
-        _ = self.manager.runAsync()
+        _ = self.appEnv.manager.runAsync()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         self.appEnv.controllers.forEach { controller in
             controller.controller.setHCIState(state: .disconnect)
         }
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
     }
     
     // MARK: - Controller handlers
@@ -81,11 +78,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // MARK: - Custom Notifications
     
+    var activity: NSObjectProtocol?
+    
     func didStartPlaying(_ notification: Notification) {
         self.appEnv.controllers.forEach {
             $0.startLEDAnimation()
         }
         self.appEnv.isPlaying = true
+        self.activity = ProcessInfo.processInfo.beginActivity(options: .userInitiatedAllowingIdleSystemSleep, reason: "Keep firing timers even when the app is in the background")
     }
     
     func didStopPlaying(_ notification: Notification) {
@@ -93,6 +93,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             $0.stopLEDAnimation()
         }
         self.appEnv.isPlaying = false
+        
+        if let activity = self.activity {
+            ProcessInfo.processInfo.endActivity(activity)
+        }
+        self.activity = nil
     }
 }
 

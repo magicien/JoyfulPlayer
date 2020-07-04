@@ -10,11 +10,11 @@ import MidiParser
 import JoyConSwift
 import UserNotifications
 
-struct Subtrack: Identifiable, Hashable {
+class Subtrack: Identifiable, Hashable, ObservableObject {
     var id = UUID()
-    var range: NoteRange
-    var notes: [Note]
-    var name: String
+    var range: NoteRange = .Unknown
+    var notes: [Note] = []
+    var name: String = ""
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
@@ -62,6 +62,7 @@ class Player {
     let midi: MidiData
     var isLoaded: Bool
     var timer: Timer?
+    var subtimers: [Timer] = []
     
     var tracks: [[Subtrack]]
     var duration: Double {
@@ -135,7 +136,9 @@ class Player {
                     }) {
                         subtracks[index].notes.append(note)
                     } else {
-                        let newSub = Subtrack(range: .Middle, notes: [note], name: "")
+                        let newSub = Subtrack()
+                        newSub.range = .Middle
+                        newSub.notes = [note]
                         subtracks.append(newSub)
                     }
                 } else if note.range == .Low {
@@ -152,7 +155,10 @@ class Player {
                         subtracks[index].notes.append(note)
                         subtracks[index].range = .Low
                     } else {
-                        let newSub = Subtrack(range: .Low, notes: [note], name: "")
+                        let newSub = Subtrack()
+                        newSub.range = .Low
+                        newSub.notes = [note]
+
                         subtracks.append(newSub)
                     }
                 } else if note.range == .High {
@@ -169,7 +175,10 @@ class Player {
                         subtracks[index].notes.append(note)
                         subtracks[index].range = .High
                     } else {
-                        let newSub = Subtrack(range: .Low, notes: [note], name: "")
+                        let newSub = Subtrack()
+                        newSub.range = .High
+                        newSub.notes = [note]
+
                         subtracks.append(newSub)
                     }
                 }
@@ -396,7 +405,13 @@ class Player {
         var indices: [Int] = [Int](repeating: 0, count: controllers.count)
 
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
+            if currentTime > duration {
+                self?.pause(controllers: controllers)
+                return
+            }
+
             let nextTime = currentTime + interval
+            self?.subtimers.removeAll()
             for i in 0..<controllers.count {
                 let controller = controllers[i]
                 let rumbleData = controller.events
@@ -404,28 +419,31 @@ class Player {
                 while index < rumbleData.count && rumbleData[index].time < nextTime {
                     let data = rumbleData[index]
                     let time = data.time - currentTime
-                    Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
+                    let subtimer = Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
                         data.send(to: controller)
                     }
+                    self?.subtimers.append(subtimer)
                     index += 1
                 }
                 indices[i] = index
             }
                         
             currentTime = nextTime
-
-            if currentTime > duration {
-                self?.pause()
-            }
         }
         
         NotificationCenter.default.post(name: .didStartPlaying, object: nil)
     }
     
-    func pause() {
+    func pause(controllers: [Controller]) {
         guard let timer  = self.timer else { return }
         timer.invalidate()
         self.timer = nil
+        self.subtimers.forEach { $0.invalidate() }
+        self.subtimers.removeAll()
+        
+        controllers.forEach {
+            $0.stopRumble()
+        }
         
         NotificationCenter.default.post(name: .didStopPlaying, object: nil)
     }

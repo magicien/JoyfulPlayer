@@ -67,4 +67,17 @@ class Controller: Identifiable, ObservableObject {
             l4: .off
         )
     }
+    
+    func stopRumble() {
+        self.controller.sendRumbleData(
+            leftLowFreq: .A1,
+            leftLowAmp: 0,
+            leftHighFreq: .A2,
+            leftHighAmp: 0,
+            rightLowFreq: .A1,
+            rightLowAmp: 0,
+            rightHighFreq: .A2,
+            rightHighAmp: 0
+        )
+    }
 }
