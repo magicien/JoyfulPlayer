@@ -63,18 +63,19 @@ class Player {
     var isLoaded: Bool
     var timer: Timer?
     var subtimers: [Timer] = []
+    /// timestamp -> actual time, new tempo
+    var timestampMap: [(Double, Double, Double)] = []
     
     var tracks: [[Subtrack]]
     var duration: Double {
         if !self.isLoaded {
             return 0
         }
-
-        let tempo = 60.0 / (self.midi.infoDictionary[.tempo] as? Double ?? 60.0)
+        
         let durations = self.midi.noteTracks.map {
             $0.offsetTime + $0.trackLength
         }
-        return (durations.max() ?? 0) * tempo
+        return self.getTime(from: durations.max() ?? 0)
     }
     var numHighTracks: Int {
         let highTracks = self.tracks.map { subtracks in
@@ -109,21 +110,36 @@ class Player {
     }
     
     func parse() {
-        self.tracks = []
-        let tempo = 60.0 / (self.midi.infoDictionary[.tempo] as? Double ?? 60.0)
+        self.parseTempo()
         
+        var lowest = 128
+        var highest = 0
+        self.midi.noteTracks.forEach {
+            $0.notes.forEach { note in
+                if note.note > highest {
+                    highest = Int(note.note)
+                }
+                if note.note < lowest {
+                    lowest = Int(note.note)
+                }
+            }
+        }
+        // TODO: Auto key adjustment
+        let keyAdjustment = 0
+        
+        self.tracks = []
         self.midi.noteTracks.forEach { track in
             var subtracks: [Subtrack] = []
             
             track.notes.forEach {
-                let startTime = ($0.timeStamp + track.offsetTime) * tempo
-                let endTime = startTime + Double($0.duration) * tempo
+                let startTime = self.getTime(from: $0.timeStamp + track.offsetTime)
+                let endTime = startTime + self.getTime(from: Double($0.duration))
                 
                 let note = Note(
                     startTime: startTime,
                     endTime: endTime,
                     velocity: $0.velocity,
-                    note: $0.note
+                    note: UInt8(Int($0.note) + keyAdjustment)
                 )
                 if note.range == .Unknown || note.range == .TooHigh || note.range == .TooLow {
                     return
@@ -205,6 +221,33 @@ class Player {
             
             self.tracks.append(subtracks)
         }
+    }
+    
+    func parseTempo() {
+        var tempo = 60.0 / (self.midi.infoDictionary[.tempo] as? Double ?? 60.0)
+        var timestampMap: [(Double, Double, Double)] = [(0, 0, tempo)]
+
+        var prevTimeStamp: Double = 0
+        var time: Double = 0
+        
+        self.midi.tempoTrack.extendedTempos.sorted(by: { $0.timeStamp < $1.timeStamp }).forEach {
+            time += ($0.timeStamp - prevTimeStamp) * tempo
+            if (timestampMap.last?.0 ?? 0) == $0.timeStamp {
+                timestampMap.removeLast()
+            }
+            tempo = 60.0 / $0.bpm
+            timestampMap.append(($0.timeStamp, time, tempo))
+            prevTimeStamp = $0.timeStamp
+        }
+        
+        self.timestampMap = timestampMap
+    }
+    
+    func getTime(from timestamp: Double) -> Double {
+        let index = (self.timestampMap.firstIndex { timestamp < $0.0 } ?? self.timestampMap.count) - 1
+        let (prevTimestamp, time, tempo) = self.timestampMap[index]
+        
+        return time + (timestamp - prevTimestamp) * tempo
     }
     
     func assignTracks(to controllers: [Controller]) {

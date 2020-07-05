@@ -57,7 +57,12 @@ struct TrackCellView: View, Identifiable {
     }
     
     var trackSelect: some View {
-        let flatTracks: [Subtrack?] = self.env.player.tracks.reduce([emptySubtrack], +)
+        var flatTracks: [Subtrack?] = self.env.player.tracks.reduce([emptySubtrack], +)
+        if self.high {
+            flatTracks = flatTracks.filter { ($0?.range ?? .Middle) != .Low }
+        } else {
+            flatTracks = flatTracks.filter { ($0?.range ?? .Middle) != .High }
+        }
         
         return Picker("", selection: self.boundTrack) {
             ForEach(flatTracks, id: \.self) { track in

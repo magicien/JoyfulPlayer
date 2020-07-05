@@ -72,7 +72,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let index = self.appEnv.controllers.firstIndex(where: {
             $0.controller.serialID == controller.serialID
         }) {
-            self.appEnv.controllers.remove(at: index)
+            DispatchQueue.main.async {
+                self.appEnv.controllers.remove(at: index)
+            }
         }
     }
     
@@ -82,6 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func didStartPlaying(_ notification: Notification) {
         self.appEnv.controllers.forEach {
+            $0.controller.enableVibration(enable: true)
             $0.startLEDAnimation()
         }
         self.appEnv.isPlaying = true
@@ -91,6 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func didStopPlaying(_ notification: Notification) {
         self.appEnv.controllers.forEach {
             $0.stopLEDAnimation()
+            $0.controller.enableVibration(enable: false)
         }
         self.appEnv.isPlaying = false
         
