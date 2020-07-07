@@ -15,14 +15,20 @@ struct PlayerView: View {
     @State var fileName: String = ""
     @State var duration: Double = 0
     @State var isReady: Bool = false
-
+    @State var isParsed: Bool = false
+    @State var keyChangeString: String = "0"
+    
     var body: some View {
         VStack(alignment: .leading) {
             self.openButton
             self.fileInfoText
+            self.keySettings
+            self.parseButton
+            self.trackInfoText
             self.assignButton
             self.controllerTable
             self.convertButton
+            self.volumeSettings
             if self.env.isPlaying {
                 self.pauseButton
             } else {
@@ -44,6 +50,8 @@ struct PlayerView: View {
                         
                         self.fileName = url.lastPathComponent
                         self.duration = self.env.player.duration
+                        self.keyChangeString = "\(self.env.player.keyChange)"
+                        self.isParsed = false
                         self.isReady = false
                         self.env.controllers.forEach {
                             $0.leftHighTrack = nil
@@ -74,11 +82,44 @@ struct PlayerView: View {
         return VStack(alignment: .leading, spacing: 3) {
             if self.fileName != "" {
                 Text("File name: \(self.fileName)")
-                Text("Duration: \(minutes):\(seconds)")
-                Text("Num tracks: high: \(self.env.player.numHighTracks), low: \(self.env.player.numLowTracks), mid: \(self.env.player.numMidTracks)")
+                Text("Duration: \(minutes):\(String(format: "%02d", seconds))")
             }
         }
         .padding(5)
+    }
+    
+    var keySettings: some View {
+        HStack {
+            Text("Key:")
+            TextField("", text: self.$keyChangeString)
+        }
+    }
+    
+    var parseButton: some View {
+        Button(action: {
+            if let keyChange = Int(self.keyChangeString) {
+                self.env.player.keyChange = keyChange
+            }
+            self.env.player.parse()
+            self.isParsed = self.env.player.isParsed
+        }) {
+            Text("2. Parse")
+        }
+        .disabled(!self.env.player.isLoaded)
+    }
+    
+    var trackInfoText: some View {
+        Group {
+            if self.env.player.isParsed {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Key: \(self.env.player.keyChange)")
+                    Text("Num tracks: high: \(self.env.player.numHighTracks), low: \(self.env.player.numLowTracks), mid: \(self.env.player.numMidTracks)")
+                }
+                .padding(5)
+            } else {
+                EmptyView()
+            }
+        }
     }
     
     var controllerTable: some View {
@@ -102,9 +143,9 @@ struct PlayerView: View {
         Button(action: {
             self.env.player.assignTracks(to: self.env.controllers)
         }) {
-            Text("2. Assign tracks to controllers")
+            Text("3. Assign tracks to controllers")
         }
-        .disabled(!self.env.player.isLoaded)
+        .disabled(!self.isParsed)
     }
     
     var convertButton: some View {
@@ -117,16 +158,28 @@ struct PlayerView: View {
                 alert.runModal()
             }
         }) {
-            Text("3. Convert data")
+            Text("4. Convert data")
         }
-        .disabled(!self.env.player.isLoaded)
+        .disabled(!self.isParsed)
+    }
+    
+    var volumeSettings: some View {
+        let bind = Binding<Float>(get: {
+            return self.env.player.volume
+        }, set: { newValue in
+            self.env.player.volume = newValue
+        })
+        
+        return Slider(value: bind, in: 0...1) {
+            Text("Volume")
+        }
     }
     
     var playButton: some View {
         Button(action: {
             self.env.player.play(controllers: self.env.controllers)
         }) {
-            Text("4. Play")
+            Text("5. Play")
         }
         .disabled(!self.isReady)
     }
@@ -135,7 +188,7 @@ struct PlayerView: View {
         Button(action: {
             self.env.player.pause(controllers: self.env.controllers)
         }) {
-            Text("4. Stop")
+            Text("5. Stop")
         }
     }
 }

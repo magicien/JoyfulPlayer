@@ -61,10 +61,13 @@ struct RumbleEvent {
 class Player {
     let midi: MidiData
     var isLoaded: Bool
+    var isParsed: Bool
     var timer: Timer?
     var subtimers: [Timer] = []
     /// timestamp -> actual time, new tempo
     var timestampMap: [(Double, Double, Double)] = []
+    var keyChange: Int = 0
+    var volume: Float = 1
     
     var tracks: [[Subtrack]]
     var duration: Double {
@@ -99,19 +102,39 @@ class Player {
     init() {
         self.midi = MidiData()
         self.isLoaded = false
+        self.isParsed = false
         self.tracks = []
     }
     
     func load(url: URL) throws {
         let data = try Data(contentsOf: url)
         self.midi.load(data: data)
-        self.parse()
+        self.parseTempo()
+        self.parseNoteRange()
         self.isLoaded = true
     }
     
-    func parse() {
-        self.parseTempo()
+    func parseTempo() {
+        var tempo = 60.0 / (self.midi.infoDictionary[.tempo] as? Double ?? 60.0)
+        var timestampMap: [(Double, Double, Double)] = [(0, 0, tempo)]
+
+        var prevTimeStamp: Double = 0
+        var time: Double = 0
         
+        self.midi.tempoTrack.extendedTempos.sorted(by: { $0.timeStamp < $1.timeStamp }).forEach {
+            time += ($0.timeStamp - prevTimeStamp) * tempo
+            if (timestampMap.last?.0 ?? 0) == $0.timeStamp {
+                timestampMap.removeLast()
+            }
+            tempo = 60.0 / $0.bpm
+            timestampMap.append(($0.timeStamp, time, tempo))
+            prevTimeStamp = $0.timeStamp
+        }
+        
+        self.timestampMap = timestampMap
+    }
+    
+    func parseNoteRange() {
         var lowest = 128
         var highest = 0
         self.midi.noteTracks.forEach {
@@ -124,9 +147,21 @@ class Player {
                 }
             }
         }
-        // TODO: Auto key adjustment
-        let keyAdjustment = 0
-        
+
+        let lowestNote = 28
+        let highestNote = 87
+        let maxRange = highestNote - lowestNote
+        self.keyChange = 0
+        if highest - lowest <= maxRange {
+            if highest > highestNote {
+                self.keyChange = highestNote - highest
+            } else if lowest < lowestNote {
+                self.keyChange = lowestNote - lowest
+            }
+        }
+    }
+    
+    func parse() {
         self.tracks = []
         self.midi.noteTracks.forEach { track in
             var subtracks: [Subtrack] = []
@@ -139,7 +174,7 @@ class Player {
                     startTime: startTime,
                     endTime: endTime,
                     velocity: $0.velocity,
-                    note: UInt8(Int($0.note) + keyAdjustment)
+                    note: UInt8(Int($0.note) + self.keyChange)
                 )
                 if note.range == .Unknown || note.range == .TooHigh || note.range == .TooLow {
                     return
@@ -221,26 +256,8 @@ class Player {
             
             self.tracks.append(subtracks)
         }
-    }
-    
-    func parseTempo() {
-        var tempo = 60.0 / (self.midi.infoDictionary[.tempo] as? Double ?? 60.0)
-        var timestampMap: [(Double, Double, Double)] = [(0, 0, tempo)]
-
-        var prevTimeStamp: Double = 0
-        var time: Double = 0
         
-        self.midi.tempoTrack.extendedTempos.sorted(by: { $0.timeStamp < $1.timeStamp }).forEach {
-            time += ($0.timeStamp - prevTimeStamp) * tempo
-            if (timestampMap.last?.0 ?? 0) == $0.timeStamp {
-                timestampMap.removeLast()
-            }
-            tempo = 60.0 / $0.bpm
-            timestampMap.append(($0.timeStamp, time, tempo))
-            prevTimeStamp = $0.timeStamp
-        }
-        
-        self.timestampMap = timestampMap
+        self.isParsed = true
     }
     
     func getTime(from timestamp: Double) -> Double {
@@ -452,6 +469,7 @@ class Player {
                 self?.pause(controllers: controllers)
                 return
             }
+            let volume = self?.volume ?? 1.0
 
             let nextTime = currentTime + interval
             self?.subtimers.removeAll()
@@ -460,7 +478,12 @@ class Player {
                 let rumbleData = controller.events
                 var index = indices[i]
                 while index < rumbleData.count && rumbleData[index].time < nextTime {
-                    let data = rumbleData[index]
+                    var data = rumbleData[index]
+                    data.leftHighAmp = UInt8(Float(data.leftHighAmp) * volume)
+                    data.leftLowAmp = UInt8(Float(data.leftLowAmp) * volume)
+                    data.rightHighAmp = UInt8(Float(data.rightHighAmp) * volume)
+                    data.rightLowAmp = UInt8(Float(data.rightLowAmp) * volume)
+                    
                     let time = data.time - currentTime
                     let subtimer = Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
                         data.send(to: controller)
