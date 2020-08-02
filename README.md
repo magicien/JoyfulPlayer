@@ -9,6 +9,7 @@ MIDI Player for Nintendo Joy-Con and ProController (macOS, Swift)
 1. Download a dmg file (JoyfulPlayer-vX.X.X.dmg) from [Releases](https://github.com/magicien/JoyfulPlayer/releases)
 
 2. Copy JoyfulPlayer.app to Applications (or you can launch the app directly)
+
 ![screenshot_install](https://github.com/magicien/JoyfulPlayer/blob/master/resources/screenshot/screenshot_2.png)
 
 ## How to use
